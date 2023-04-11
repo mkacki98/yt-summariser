@@ -13,10 +13,10 @@ class Commentator:
     def __init__(self, model: OpenAI):
         self.client = self.get_authenticated_client()
 
-        template = """ Answer the question based on the context below. If the question can't be answered using the infromation provided, output an empty string. 
+        template = """ Answer the question based on the context below.
 
         Context: {title}
-        Query: Generate a single short sentence where you thank an author of the video for creating it and say why it may be useful to others.
+        Query: Generate a single short sentence where you thank an author of the video for creating it and say why it may be useful to others. If you can't generate anything good, return an empty string.
         """
 
         self.prompt_template = PromptTemplate(
