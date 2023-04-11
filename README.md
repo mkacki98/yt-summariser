@@ -29,6 +29,8 @@ python create_db.py
 
 ### Google API
 
+0. Add `secrets` folder to `bot`. This is where Google API authentication will be stored.
+
 1. You need to create an account at Google Developers.
 2. Go to `Google Cloud` > `Console`.
     * create a new project (top of the page)
