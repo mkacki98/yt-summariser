@@ -37,7 +37,7 @@ db = SessionLocal()
     response_model=Video,
     status_code=status.HTTP_201_CREATED,
 )
-def add_video_summary(video: Video):
+async def add_video_summary(video: Video):
     """This request either creates summary and adds a new record, or retireves an old record with the summary. In both cases it returns the video for a given url."""
 
     database_record = (
@@ -82,7 +82,7 @@ def add_video_summary(video: Video):
     response_model=List[Video],
     status_code=status.HTTP_200_OK,
 )
-def get_all_videos():
+async def get_all_videos():
     """This requests gives all the videos/summaries in the current database, so the user can pick from them."""
     ###
     # I'm still not sure where to put this in the frontend
@@ -97,7 +97,7 @@ def get_all_videos():
     response_model=str,
     status_code=status.HTTP_200_OK,
 )
-def post_summary_comment(video: Video):
+async def post_summary_comment(video: Video):
     """This request gets the video with a given url and posts a comment with its summary on YouTube."""
 
     retrieved_video = (
