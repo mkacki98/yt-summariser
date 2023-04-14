@@ -2,7 +2,7 @@
 
 A GPT-based YouTube bot that leaves lovely comments with summaries of key points from YouTube videos.
 
-![](demo.gif)
+https://user-images.githubusercontent.com/85243209/232094172-9dcd0972-026f-48c9-9880-ead306c90aee.mp4
 
 # Setup
 
