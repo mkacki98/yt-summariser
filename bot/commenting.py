@@ -44,9 +44,7 @@ class Commentator:
 
             return build(API_SERVICE_NAME, API_VERSION, credentials=creds)
 
-        creds = Credentials.from_authorized_user_file(
-            "bot/secrets/token.json", SCOPES
-        )
+        creds = Credentials.from_authorized_user_file("bot/secrets/token.json", SCOPES)
         return build(API_SERVICE_NAME, API_VERSION, credentials=creds)
 
     def post_comment(

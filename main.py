@@ -1,16 +1,31 @@
 import uuid
 import os
+import random
 from datetime import datetime
 from typing import Optional, List
 
 from langchain.llms import OpenAI
 from fastapi import FastAPI, status, HTTPException
+from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+
 from pydantic import BaseModel
 
 from database import SessionLocal, Video as Video_SQL_Schema
 from bot import Summariser, VideoProcessor, Commentator
 
+# Allow communications from other servers (frontend)
 app = FastAPI()
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 model = OpenAI(model_name="gpt-3.5-turbo", openai_api_key=os.environ["OPENAI_KEY"])
 
 summariser = Summariser(model=model)
@@ -32,6 +47,13 @@ class Video(BaseModel):
 db = SessionLocal()
 
 
+@app.options("/videos")
+async def videos_options():
+    allowed_methods = ["GET", "POST"]
+    headers = {"Allow": ", ".join(allowed_methods)}
+    return JSONResponse(content={}, status_code=status.HTTP_200_OK, headers=headers)
+
+
 @app.post(
     "/videos",
     response_model=Video,
@@ -44,10 +66,7 @@ async def add_video_summary(video: Video):
         db.query(Video_SQL_Schema).filter(Video_SQL_Schema.url == video.url).first()
     )
     if database_record:
-        ###
-        # This should return that video as `Video`
-        ###
-        raise HTTPException(status_code=400, detail="This video already exists.")
+        return database_record
 
     video_processor = VideoProcessor(video.url)
     title, n_keypoints, transcripts = video_processor.process_video()
@@ -71,9 +90,6 @@ async def add_video_summary(video: Video):
     db.add(new_video)
     db.commit()
 
-    ###
-    # This video will be displayed on (2) in the frontend demo.
-    ###
     return new_video
 
 
@@ -84,15 +100,25 @@ async def add_video_summary(video: Video):
 )
 async def get_all_videos():
     """This requests gives all the videos/summaries in the current database, so the user can pick from them."""
-    ###
-    # I'm still not sure where to put this in the frontend
-    # It could also just give e.g. random 5 videos instead of all of them
-    ###
     videos = db.query(Video_SQL_Schema).all()
     return videos
 
 
 @app.get(
+    "/summary_random",
+    response_model=Video,
+    status_code=status.HTTP_200_OK,
+)
+async def get_random_summary():
+    """This requests retrieves a random summary from the database"""
+    videos = db.query(Video_SQL_Schema).all()
+    if videos:
+        return random.choice(videos)
+    else:
+        raise ValueError("No videos in the database.")
+
+
+@app.put(
     "/comments",
     response_model=str,
     status_code=status.HTTP_200_OK,
