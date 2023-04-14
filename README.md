@@ -46,34 +46,24 @@ python create_db.py
 
 # Background on the problem
 
-Have you noticed this weird phenomena where people try to bullet-point summarise YouTube videos in the comment section? 
+I noticed a tendency from YouTube creators to make videos that consists of a few key points ("5 tips on xyz"). My intuition there is that this leads to more engagment from videos as people keep waiting to hear about the next point instead of switching tabs. People then usually comment on these videos where they summarise key points and get a lot of upvotes for it.
 
 -----
-
-Like this one:
-![Screenshot](imgs/tim-bcoder.png)
-
------
-
-It's actually quite funny, people seem to like doing summarisation olympics sometimes.
 
 ![Screenshot](imgs/olympics-alux.png)
 
 -----
 
-What is even more interesting is that these comments usually get a shit ton of upvotes. Clearly our attention spans are not long enough to watch a 10 minute video in x2 + skipping the content. I encourage you to try [this](https://www.youtube.com/watch?v=Edx9D2yaOGs&embeds_euri=https%3A%2F%2Fwww.notion.so%2F&source_ve_path=Mjg2NjMsMjM4NTE&feature=emb_title
-) if you think you're not in that group. I certainly am.
+I tried to tackle this problem on one of my past university assignments with making slight changes to [BertSum architecture](https://arxiv.org/abs/1903.10318v1). Long-story short - lack of available data on the problem leads to inability to properly fine-tune the model and we had to bias it towards certain keywords. It certainly worked better, but it was far from ideal.
+
+Generative text models (like GPT) don't have these problems. I revisited the problem, and it I must conclude the hype is surely real. Here's a generative text bot take on the task. 
 
 -----
 
-I tried to tackle this problem on one of my past uni assignments with making slight changes to BertSum architecture. Long-story short - lack of available data on the problem leads to inability to properly fine-tune the model and we had to bias it towards certain keywords. It certainly worked better, but it was far from ideal.
-
-Generative text models (like GPT) don't have these problems. I revisited the problem, and it I must conclude the hype is surely real. Here's a generative text bot take on the task:
+![Screenshot](imgs/jeff-cmt.jpg)
 
 -----
 
-![Screenshot](imgs/alux-bot.png)
-
------
+Turing test was passed!
 
 I don't want to spam README.md too much, see `/imgs` for more examples.
