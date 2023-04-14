@@ -60,7 +60,7 @@ Generative text models (like GPT) don't have these problems. I revisited the pro
 
 -----
 
-![Screenshot](imgs/jeff-cmt.jpg)
+![Screenshot](imgs/jeff-cmt.png)
 
 -----
 
